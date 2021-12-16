@@ -5,8 +5,16 @@ import HelperFunctions.*;
 
 public class DnDGame implements Finals{
     Creature[] creatureOrder;
+    Player player1;
+    int playerLevel = 1;
     public void startGame(){
-        Player player1 = new Player("Brave adventurer",12,new boolean[13],30,new int[]{20,10,10,10,10,10},4, new Weapon(GREATSWORD_PROPERTIES, GREATSWORD_NAME, GREATSWORD_DAMAGE_TYPE, GREATSWORD_DICE_AMOUNT, GREATSWORD_DICE_TYPE), new Armor());
+        player1 = new Player("Brave adventurer",12,new boolean[13],30,new int[]{20,10,10,10,10,10},4, new Weapon(GREATSWORD_PROPERTIES, GREATSWORD_NAME, GREATSWORD_DAMAGE_TYPE, GREATSWORD_DICE_AMOUNT, GREATSWORD_DICE_TYPE), new Armor());
+        while (true) {
+            startGame2();
+            playerLevel++;
+        }
+    }
+    public void startGame2(){
         System.out.print("How many goblins do you wish to fight?\n>>> ");
         int goblins = TextIO.getlnInt();
         Creature[] creatures = new Creature[goblins + 1];
@@ -35,6 +43,10 @@ public class DnDGame implements Finals{
             }
             if (totalzeroes == creatures.length-1){
                 System.out.println("You killed all the goblins, good job");
+                int healthGain = Roll.rollDice(1,12);
+                System.out.println("You leveled up. Now level "+(playerLevel+1)+", gaining "+healthGain+" more health.");
+                player1.setHealth(player1.getHealth()+healthGain);
+                System.out.println("Current health is "+player1.getHealth()+".");
                 break;
             } else if (playerDead){
                 break;
